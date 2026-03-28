@@ -29,6 +29,6 @@ public class Images {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private String downloadURL;
+    private String downloadUrl;
 
 }
