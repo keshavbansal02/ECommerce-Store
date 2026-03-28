@@ -1,6 +1,6 @@
 package com.keshavbansal.ECommerceStore.service.product;
 
-import com.keshavbansal.ECommerceStore.globalException.ProductNotFoundException;
+import com.keshavbansal.ECommerceStore.globalException.ResourceNotFoundException;
 import com.keshavbansal.ECommerceStore.model.Category;
 import com.keshavbansal.ECommerceStore.model.Product;
 import com.keshavbansal.ECommerceStore.repository.CategoryRepository;
@@ -25,14 +25,14 @@ public class ProductService implements IProductService {
     @Override
     public Product getProductById(Long productId) {
         return productRepository.findById(productId)
-                .orElseThrow(()->new ProductNotFoundException("Product not found with id: " + productId));
+                .orElseThrow(()->new ResourceNotFoundException("Product not found with id: " + productId));
     }
 
     @Override
     public List<Product> getAllProducts() {
         List<Product> products = productRepository.findAll();
         if(products.isEmpty()){
-            throw new ProductNotFoundException("Product not found in the database");
+            throw new ResourceNotFoundException("Product not found in the database");
         }
         return products;
     }
@@ -41,7 +41,7 @@ public class ProductService implements IProductService {
     public List<Product> getProductsByCategory(String  category) {
         List<Product> products = productRepository.findByCategoryName(category);
         if(products.isEmpty()){
-            throw new ProductNotFoundException("Product not found with category: " + category);
+            throw new ResourceNotFoundException("Product not found with category: " + category);
         }
         return products;
     }
@@ -50,7 +50,7 @@ public class ProductService implements IProductService {
     public List<Product> getProductsByBrand(String brand) {
         List<Product> products = productRepository.findByBrand(brand);
         if(products.isEmpty()){
-            throw new ProductNotFoundException("Product not found with brand: " + brand);
+            throw new ResourceNotFoundException("Product not found with brand: " + brand);
         }
         return products;
     }
@@ -59,7 +59,7 @@ public class ProductService implements IProductService {
     public List<Product> getProductsByName(String name) {
         List<Product> products = productRepository.findByName(name);
         if(products.isEmpty()){
-            throw new ProductNotFoundException("Product not found with name: " + name);
+            throw new ResourceNotFoundException("Product not found with name: " + name);
         }
         return products;
     }
@@ -68,7 +68,7 @@ public class ProductService implements IProductService {
     public List<Product> getProductsByBrandAndName(String brand, String name) {
         List<Product> products = productRepository.findByBrandAndName(brand, name);
         if(products.isEmpty()){
-            throw new ProductNotFoundException("Product not found with name: " + name + " and brand: " + brand);
+            throw new ResourceNotFoundException("Product not found with name: " + name + " and brand: " + brand);
         }
         return products;
     }
@@ -77,7 +77,7 @@ public class ProductService implements IProductService {
     public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
         List<Product> products = productRepository.findByBrandAndCategoryName(brand,category);
         if(products.isEmpty()){
-            throw new ProductNotFoundException("Product not found with category: " + category + " and brand: " + brand);
+            throw new ResourceNotFoundException("Product not found with category: " + category + " and brand: " + brand);
         }
         return products;
     }
@@ -119,7 +119,7 @@ public class ProductService implements IProductService {
         return productRepository.findById(productId)
                 .map(existingProduct -> updateExistingProduct(existingProduct, request))
                 .map(productRepository::save)
-                .orElseThrow(()->new ProductNotFoundException("Product not found with id: " + productId));
+                .orElseThrow(()->new ResourceNotFoundException("Product not found with id: " + productId));
 
     }
 
@@ -140,7 +140,7 @@ public class ProductService implements IProductService {
     @Override
     public Product deleteProduct(Long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(()->new ProductNotFoundException("Product not found with id: " + productId));
+                .orElseThrow(()->new ResourceNotFoundException("Product not found with id: " + productId));
         productRepository.delete(product);
         return product;
     }
