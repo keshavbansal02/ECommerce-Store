@@ -27,7 +27,7 @@ public class CategoryController {
             List<Category> categories = categoryService.getAllCategories();
             return ResponseEntity.ok(new ApiResponse("Categories retrieved successfully", categories));
         } catch (Exception e) {
-            return  ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to retrieve categories", INTERNAL_SERVER_ERROR));
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to retrieve categories", INTERNAL_SERVER_ERROR));
         }
     }
 
