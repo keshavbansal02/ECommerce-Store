@@ -22,8 +22,8 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/get-by-id/{id}")
-    public ResponseEntity<ApiResponse> getProductById(@PathVariable long id) {
+    @GetMapping("/get-by-id/")
+    public ResponseEntity<ApiResponse> getProductById(@RequestParam long id) {
         try {
             Product product = productService.getProductById(id);
             return ResponseEntity.ok(new ApiResponse("Product retrieved successfully", product));
@@ -42,8 +42,8 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/get-by-category/{category}")
-    public ResponseEntity<ApiResponse> getProductByCategory(@PathVariable String category) {
+    @GetMapping("/get-by-category/")
+    public ResponseEntity<ApiResponse> getProductByCategory(@RequestParam String category) {
         try {
             List<Product> product = productService.getProductsByCategory(category);
             return ResponseEntity.ok(new ApiResponse("Product retrieved successfully of category: " + category , product));
@@ -52,8 +52,8 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/get-by-brand/{brand}")
-    public ResponseEntity<ApiResponse> getProductByBrand(@PathVariable String brand) {
+    @GetMapping("/get-by-brand/")
+    public ResponseEntity<ApiResponse> getProductByBrand(@RequestParam String brand) {
         try {
             List<Product> product = productService.getProductsByBrand(brand);
             return ResponseEntity.ok(new ApiResponse("Product retrieved successfully of brand: " + brand , product));
@@ -62,8 +62,8 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/get-by-name/{name}")
-    public ResponseEntity<ApiResponse> getProductByName(@PathVariable String name) {
+    @GetMapping("/get-by-name/")
+    public ResponseEntity<ApiResponse> getProductByName(@RequestParam String name) {
         try {
             List<Product> product = productService.getProductsByName(name);
             return ResponseEntity.ok(new ApiResponse("Product retrieved successfully of name: " + name , product));
@@ -84,8 +84,8 @@ public class ProductController {
 
     }
 
-    @PutMapping("/update-product/{id}")
-    public ResponseEntity<ApiResponse> updateProductById(@PathVariable long id, @RequestBody UpdateProductRequest request) {
+    @PutMapping("/update-product/")
+    public ResponseEntity<ApiResponse> updateProductById(@RequestParam long id, @RequestBody UpdateProductRequest request) {
         try {
             Product updatedProduct = productService.updateProduct(request,id);
             return ResponseEntity.ok(new ApiResponse("Product updated successfully", updatedProduct));
@@ -94,8 +94,8 @@ public class ProductController {
         }
     }
 
-    @DeleteMapping("/delete-product/{id}")
-    public ResponseEntity<ApiResponse> deleteProductById(@PathVariable long id) {
+    @DeleteMapping("/delete-product/")
+    public ResponseEntity<ApiResponse> deleteProductById(@RequestParam long id) {
         try {
             Product deletedProduct = productService.deleteProduct(id);
             return ResponseEntity.ok(new ApiResponse("Product deleted successfully", deletedProduct));
@@ -134,8 +134,8 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/count-product-by-category/{category}")
-    public ResponseEntity<ApiResponse> countProductsByCategory(@PathVariable String category){
+    @GetMapping("/count-product-by-category/")
+    public ResponseEntity<ApiResponse> countProductsByCategory(@RequestParam String category){
         try{
             long count = productService.countProductsByCategory(category);
             return ResponseEntity.ok(new ApiResponse("Total number of products in the database: ", count));
@@ -144,8 +144,8 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/count-product-by-name/{name}")
-    public ResponseEntity<ApiResponse> countProductsByName(@PathVariable String name){
+    @GetMapping("/count-product-by-name/")
+    public ResponseEntity<ApiResponse> countProductsByName(@RequestParam String name){
         try{
             long count = productService.countProductsByName(name);
             return ResponseEntity.ok(new ApiResponse("Total number of products in the database: ", count));
@@ -154,8 +154,8 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/count-product-by-brand/{brand}")
-    public ResponseEntity<ApiResponse> countProductsByBrand(@PathVariable String brand){
+    @GetMapping("/count-product-by-brand/")
+    public ResponseEntity<ApiResponse> countProductsByBrand(@RequestParam String brand){
         try{
             long count = productService.countProductsByBrand(brand);
             return ResponseEntity.ok(new ApiResponse("Total number of products in the database: ", count));

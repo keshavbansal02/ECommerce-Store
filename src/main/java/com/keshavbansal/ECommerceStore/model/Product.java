@@ -1,5 +1,8 @@
 package com.keshavbansal.ECommerceStore.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,11 +40,13 @@ public class Product {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties("products")
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "product",
             orphanRemoval = true)
+    @JsonIgnoreProperties("product")
     private List<Images> images;
 
     @CreatedDate
