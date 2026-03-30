@@ -124,6 +124,54 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/count-all-product")
+    public ResponseEntity<ApiResponse> countAllProduct() {
+        try{
+            long count = productService.countProducts();
+            return ResponseEntity.ok(new ApiResponse("Total number of products in the database: ", count));
+        }catch(Exception e){
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+        }
+    }
 
+    @GetMapping("/count-product-by-category/{category}")
+    public ResponseEntity<ApiResponse> countProductsByCategory(@PathVariable String category){
+        try{
+            long count = productService.countProductsByCategory(category);
+            return ResponseEntity.ok(new ApiResponse("Total number of products in the database: ", count));
+        }catch(Exception e){
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/count-product-by-name/{name}")
+    public ResponseEntity<ApiResponse> countProductsByName(@PathVariable String name){
+        try{
+            long count = productService.countProductsByName(name);
+            return ResponseEntity.ok(new ApiResponse("Total number of products in the database: ", count));
+        }catch(Exception e){
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/count-product-by-brand/{brand}")
+    public ResponseEntity<ApiResponse> countProductsByBrand(@PathVariable String brand){
+        try{
+            long count = productService.countProductsByBrand(brand);
+            return ResponseEntity.ok(new ApiResponse("Total number of products in the database: ", count));
+        }catch(Exception e){
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/count-product-by-brand-and-name/")
+    public ResponseEntity<ApiResponse> countProductsByBrandAndName(@RequestParam String brand,@RequestParam String name){
+        try{
+            long count = productService.countProductsByBrandAndName(brand,name);
+            return ResponseEntity.ok(new ApiResponse("Total number of products in the database: ", count));
+        }catch(Exception e){
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+        }
+    }
 
 }
