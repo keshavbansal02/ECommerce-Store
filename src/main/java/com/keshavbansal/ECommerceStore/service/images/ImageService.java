@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +47,10 @@ public class ImageService implements IImageService {
                 Images image = new Images();
                 image.setFileName(file.getOriginalFilename());
                 image.setFileType(file.getContentType());
-                image.setImage(new SerialBlob(file.getBytes()));
+                image.setImage(file.getBytes());
                 image.setProduct(product);
                 Images savedImage = imageRepository.save(image);
-                String downloadUrl = "/ECommerceStore/images/image/download" + image.getId();
+                String downloadUrl = "/ECommerceStore/images/image/download/" + savedImage.getId();
                 savedImage.setDownloadUrl(downloadUrl);
                 imageRepository.save(savedImage);
 
@@ -60,10 +60,11 @@ public class ImageService implements IImageService {
                 imageDto.setDownloadUrl(savedImage.getDownloadUrl());
                 imageDtos.add(imageDto);
 
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read file bytes: " + e.getMessage());
             } catch (Exception e) {
                 throw new RuntimeException("Failed to save image: " + e.getMessage());
             }
-
         }
         return imageDtos;
     }
@@ -76,7 +77,7 @@ public class ImageService implements IImageService {
         try {
             image.setFileName(file.getOriginalFilename());
             image.setFileType(file.getContentType());
-            image.setImage(new SerialBlob(file.getBytes()));
+            image.setImage(file.getBytes());
             imageRepository.save(image);
         } catch (Exception e) {
             throw new RuntimeException("Failed to update image: " + e.getMessage());

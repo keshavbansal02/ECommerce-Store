@@ -25,7 +25,8 @@ public class Images {
     private String fileType;
 
     @Lob
-    private Blob image;
+    @Column(name = "image", columnDefinition = "LONGBLOB")
+    private byte[] image;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "product_id")

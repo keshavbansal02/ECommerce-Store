@@ -7,15 +7,14 @@ import com.keshavbansal.ECommerceStore.response.ApiResponse;
 import com.keshavbansal.ECommerceStore.service.images.IImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -67,15 +66,15 @@ public class ImageController {
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Update Failed",INTERNAL_SERVER_ERROR));
     }
 
-    @GetMapping("/image/download")
-    public ResponseEntity<ApiResponse> downloadImage(@RequestParam Long imageId) throws SQLException {
+    @GetMapping("/image/download/{imageId}")
+    public ResponseEntity<Resource> downloadImage(@PathVariable Long imageId) throws SQLException {
         Images image = imageService.getImageById(imageId);
 
-            ByteArrayResource resource = new ByteArrayResource(image.getImage().getBytes(1,(int)image.getImage().length()));
+            ByteArrayResource resource = new ByteArrayResource(image.getImage());
 
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + image.getFileName() + "\"")
-                .body(new ApiResponse("Image downloaded successfully", resource));
+                .body(resource);
     }
 
 }

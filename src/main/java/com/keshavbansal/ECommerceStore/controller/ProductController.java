@@ -114,10 +114,10 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/get-product-by-category-and-name/")
+    @GetMapping("/get-product-by-category-and-brand/")
     public ResponseEntity<ApiResponse> getProductsByBrandAndCategory(@RequestParam String brand, @RequestParam String category) {
         try {
-            List<Product> products = productService.getProductsByCategoryAndBrand(brand, category);
+            List<Product> products = productService.getProductsByCategoryAndBrand(category,brand);
             return ResponseEntity.ok(new ApiResponse("Product retrieved successfully of brand: " + brand + " and Category: " + category , products));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
