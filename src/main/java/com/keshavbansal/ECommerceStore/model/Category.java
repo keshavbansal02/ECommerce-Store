@@ -1,5 +1,6 @@
 package com.keshavbansal.ECommerceStore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -24,7 +25,7 @@ public class Category {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "category",orphanRemoval = true)
-    @JsonIgnoreProperties("category")
+    @JsonIgnore
     private List<Product> products;
 
     public Category(String name) {

@@ -30,7 +30,6 @@ public class Images {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "product_id")
-    @JsonIgnoreProperties("images")
     private Product product;
 
     private String downloadUrl;
