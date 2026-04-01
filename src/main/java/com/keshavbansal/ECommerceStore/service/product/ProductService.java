@@ -1,13 +1,18 @@
 package com.keshavbansal.ECommerceStore.service.product;
 
+import com.keshavbansal.ECommerceStore.dto.ImageDto;
+import com.keshavbansal.ECommerceStore.dto.ProductDto;
 import com.keshavbansal.ECommerceStore.globalException.ResourceNotFoundException;
 import com.keshavbansal.ECommerceStore.model.Category;
+import com.keshavbansal.ECommerceStore.model.Images;
 import com.keshavbansal.ECommerceStore.model.Product;
 import com.keshavbansal.ECommerceStore.repository.CategoryRepository;
+import com.keshavbansal.ECommerceStore.repository.ImagesRepository;
 import com.keshavbansal.ECommerceStore.repository.ProductRepository;
 import com.keshavbansal.ECommerceStore.request.AddProductRequest;
 import com.keshavbansal.ECommerceStore.request.UpdateProductRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +26,10 @@ public class ProductService implements IProductService {
     private final ProductRepository productRepository;
 
     private final CategoryRepository categoryRepository;
+
+    private final ImagesRepository imageRepository;
+
+    private final ModelMapper modelMapper;
 
     @Override
     public Product getProductById(Long productId) {
@@ -168,5 +177,30 @@ public class ProductService implements IProductService {
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
         return productRepository.countByBrandAndName(brand,name);
+    }
+
+    @Override
+    public ProductDto convertToDto(Product product) {
+
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+
+        List<Images> images = imageRepository.findByProductId(product.getId());
+
+        List<ImageDto> imageDtos = images.stream()
+                .map(image-> modelMapper.map(image,ImageDto.class))
+                .toList();
+
+        productDto.setImages(imageDtos);
+        return productDto;
+    }
+
+    @Override
+    public List<ProductDto> getConvertedProducts(List<Product> products) {
+        return products.stream().map(this::convertToDto).toList();
+    }
+
+
+     public Product convertToEntity(ProductDto productDto) {
+        return modelMapper.map(productDto, Product.class);
     }
 }
