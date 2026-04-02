@@ -1,12 +1,17 @@
 package com.keshavbansal.ECommerceStore.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -23,17 +28,25 @@ public class CartItem {
 
     private BigDecimal unitPrice;
 
-    private BigDecimal totalPrice;
+    private BigDecimal totalAmount;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnoreProperties(value = {"price","description","quantity"})
     private Product product;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    public void getTotalPrice(){
-        this.totalPrice = this.unitPrice.multiply(new BigDecimal(quantity));
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    public void getTotalAmount(){
+        this.totalAmount = this.unitPrice.multiply(new BigDecimal(quantity));
     }
 }

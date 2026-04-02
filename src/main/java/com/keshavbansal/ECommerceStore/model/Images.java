@@ -7,8 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.sql.Blob;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -34,4 +37,10 @@ public class Images {
 
     private String downloadUrl;
 
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 }
