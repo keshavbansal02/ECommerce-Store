@@ -1,6 +1,5 @@
 package com.keshavbansal.ECommerceStore.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,7 +45,7 @@ public class CartItem {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public void getTotalAmount(){
+    public void setTotalPrice(){
         this.totalAmount = this.unitPrice.multiply(new BigDecimal(quantity));
     }
 }
