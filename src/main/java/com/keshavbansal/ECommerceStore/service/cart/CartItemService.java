@@ -70,7 +70,7 @@ public class CartItemService implements ICartItemService {
     }
 
     @Override
-    public void updateItemInCart(Long cartId, Long productId, int quantity) {
+    public void updateItemQuantity(Long cartId, Long productId, int quantity) {
 
         Cart cart = cartService.getCart(cartId);
 
