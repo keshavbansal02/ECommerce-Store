@@ -4,6 +4,7 @@ import com.keshavbansal.ECommerceStore.globalException.ResourceNotFoundException
 import com.keshavbansal.ECommerceStore.model.CartItem;
 import com.keshavbansal.ECommerceStore.response.ApiResponse;
 import com.keshavbansal.ECommerceStore.service.cart.CartItemService;
+import com.keshavbansal.ECommerceStore.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class CartItemController {
 
     private final CartItemService cartItemService;
+
+    private final CartService cartService;
 
 
     @GetMapping("/get-cartItem")
@@ -35,6 +38,9 @@ public class CartItemController {
                                                      @RequestParam Integer quantity){
 
         try {
+            if(cartId == null){
+                cartId = cartService.intializeNewCart();
+            }
             cartItemService.addItemtoCart(cartId, productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Item added to cart successfully", null));
         } catch (ResourceNotFoundException e) {
